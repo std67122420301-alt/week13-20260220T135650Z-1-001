@@ -1,0 +1,1 @@
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://pokemonsset01_user:HedUq70W27skQtxNQyvK50Pbhr4cdngF@dpg-d697ip7gi27c73cbo480-a.virginia-postgres.render.com:5432/pokemonsset01"
