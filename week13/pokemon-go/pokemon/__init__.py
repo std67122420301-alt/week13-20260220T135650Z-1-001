@@ -1,16 +1,21 @@
 import os
 from flask import Flask
-from pokemon.extensions import db, login_manager, bcrypt
-from pokemon.models import User, Pokemon, Type
+from .extensions import db
+from .core import core_bp
+from .pokemon import pokemon_bp
+from .users import users_bp
 
 def create_app():
-  app = Flask(__name__)
-  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-  app.config['SECRET_KEY'] = os.environ.get('MY_SECRET_KEY')
+    app = Flask(__name__, instance_relative_config=True)
 
+    app.config["SECRET_KEY"] = "dev"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///pokemon.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-  db.init_app(app)
-  login_manager.init_app(app)
-  bcrypt.init_app(app)
+    db.init_app(app)
 
-  return app
+    app.register_blueprint(core_bp)
+    app.register_blueprint(pokemon_bp)
+    app.register_blueprint(users_bp)
+
+    return app
